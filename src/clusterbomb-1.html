@@ -39,12 +39,19 @@
         <script type="module">
             import { init, addObjectToScene, animate } from "./js/scene.js";
 
-            init();
+            const getQueryParam = (name) => {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
+            };
 
-            const MODEL_DIR = "assets/test.gltf";
+            const MODEL_DIR = "assets/clusterbomb-1.gltf";
             const SCALE = 25;
+            const DEFAULT_ROTATION_DEG = { x: 0, y: 0, z: 0 };
+            const IS_INTERACTIVE = getQueryParam("interactive") === "true";
 
-            addObjectToScene(MODEL_DIR, SCALE);
+            init(IS_INTERACTIVE);
+
+            addObjectToScene(MODEL_DIR, SCALE, DEFAULT_ROTATION_DEG);
 
             animate();
         </script>

@@ -3,14 +3,14 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 // Constants
 const SENSITIVITY = 0.2;
-const FRICTION = 0.06;
+const FRICTION = 0.12;
 
 let camera, renderer, scene, object;
 let isDragging = false;
 let previousMousePosition = { x: 0, y: 0 };
 let velocity = { x: 0, y: 0 };
 
-const init = () => {
+const init = (isInteractive) => {
     // Renderer setup
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -34,7 +34,7 @@ const init = () => {
     scene.add(ambientLight);
 
     const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(1, 1, 1).normalize();
+    directionalLight.position.set(-50, 20, 100).normalize();
     scene.add(directionalLight);
 
     // Object setup
@@ -45,18 +45,20 @@ const init = () => {
     window.addEventListener("resize", onWindowResize);
     onWindowResize();
 
-    // Mouse events for rotating the object
-    document.addEventListener("mousedown", onDocumentMouseDown, false);
-    document.addEventListener("mouseup", onDocumentMouseUp, false);
-    document.addEventListener("mousemove", onDocumentMouseMove, false);
+    if (isInteractive) {
+        // Mouse events for rotating the object
+        document.addEventListener("mousedown", onDocumentMouseDown, false);
+        document.addEventListener("mouseup", onDocumentMouseUp, false);
+        document.addEventListener("mousemove", onDocumentMouseMove, false);
 
-    // Touch events for rotating the object
-    document.addEventListener("touchstart", onDocumentTouchStart, false);
-    document.addEventListener("touchend", onDocumentTouchEnd, false);
-    document.addEventListener("touchmove", onDocumentTouchMove, false);
+        // Touch events for rotating the object
+        document.addEventListener("touchstart", onDocumentTouchStart, false);
+        document.addEventListener("touchend", onDocumentTouchEnd, false);
+        document.addEventListener("touchmove", onDocumentTouchMove, false);
+    }
 };
 
-const loadModel = (path, scale) => {
+const loadModel = (path, scale, rotation) => {
     const gltfLoader = new GLTFLoader();
     gltfLoader.load(path, (gltf) => {
         while (object.children.length > 0) {
@@ -66,6 +68,11 @@ const loadModel = (path, scale) => {
         let model = gltf.scene;
         model.scale.set(scale, scale, scale);
         model.position.set(0, 0, 0);
+        model.rotation.set(
+            toRadians(rotation.x),
+            toRadians(rotation.y),
+            toRadians(rotation.z)
+        );
 
         model.traverse((child) => {
             if (child.isMesh) {
@@ -83,8 +90,8 @@ const loadModel = (path, scale) => {
     });
 };
 
-const addObjectToScene = (path, scale) => {
-    loadModel(path, scale);
+const addObjectToScene = (path, scale, rotation) => {
+    loadModel(path, scale, rotation);
     scene.add(object);
 };
 
