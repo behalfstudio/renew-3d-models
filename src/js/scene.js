@@ -24,18 +24,52 @@ const init = (isInteractive) => {
         1,
         1000
     );
-    camera.position.z = 50;
+    // camera = new THREE.OrthographicCamera(
+    //     window.innerWidth / -10,
+    //     window.innerWidth / 10,
+    //     window.innerHeight / 10,
+    //     window.innerHeight / -10,
+    //     1,
+    //     1000
+    // );
+    camera.position.z = 150;
 
     // Scene setup
     scene = new THREE.Scene();
 
     // Lighting setup
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1); // Soft white light
+    // const ambientLight = new THREE.AmbientLight(0xffffff, 1); // Soft white light
+    // scene.add(ambientLight);
+
+    // const directionalLight = new THREE.DirectionalLight(0xffffff, 5);
+    // directionalLight.position.set(-50, 20, 100).normalize();
+    // scene.add(directionalLight);
+
+    const LIGHT_COLOR = 0xb8c0d4;
+
+    const hemiLight = new THREE.HemisphereLight(LIGHT_COLOR, LIGHT_COLOR, 1);
+    scene.add(hemiLight);
+
+    // Ambient light
+    const ambientLight = new THREE.AmbientLight(LIGHT_COLOR, 1);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(-50, 20, 100).normalize();
-    scene.add(directionalLight);
+    // Directional light
+    // const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    // directionalLight.position.set(-50, 20, 100);
+    // scene.add(directionalLight);
+
+    // Spot light
+    const spotLight = new THREE.SpotLight(LIGHT_COLOR, 4);
+    spotLight.position.set(-1000, 0, 2000);
+    spotLight.angle = Math.PI / 4;
+    scene.add(spotLight);
+
+    // Spot light
+    // const backLight = new THREE.SpotLight(0xffffff, 4);
+    // backLight.position.set(100, 10, -200);
+    // backLight.angle = Math.PI / 4;
+    // scene.add(backLight);
 
     // Object setup
     object = new THREE.Object3D();
@@ -187,8 +221,12 @@ const onDocumentTouchMove = (event) => {
     }
 };
 
-const toRadians = (angle) => {
-    return angle * (Math.PI / 180);
+const toRadians = (degrees) => {
+    return degrees * (Math.PI / 180);
+};
+
+const toDegrees = (radians) => {
+    return radians * (180 / Math.PI);
 };
 
 const animate = () => {
@@ -214,6 +252,12 @@ const animate = () => {
     }
 
     renderer.render(scene, camera);
+
+    console.log([
+        Math.round(toDegrees(object.rotation.x)),
+        Math.round(toDegrees(object.rotation.y)),
+        Math.round(toDegrees(object.rotation.z)),
+    ]);
 };
 
 export { init, addObjectToScene, animate };

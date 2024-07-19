@@ -45,8 +45,12 @@
             };
 
             const MODEL_DIR = "assets/clusterbomb-1.gltf";
-            const SCALE = 25;
-            const DEFAULT_ROTATION_DEG = { x: 0, y: 0, z: 0 };
+            const SCALE = 0.7;
+            const DEFAULT_ROTATION_DEG = {
+                x: -30 - 90,
+                y: 11 + 90,
+                z: -0 + 90,
+            };
             const IS_INTERACTIVE = getQueryParam("interactive") === "true";
 
             init(IS_INTERACTIVE);
