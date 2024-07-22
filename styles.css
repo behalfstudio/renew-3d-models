@@ -1,17 +1,54 @@
 body {
-    background-color: #f5f5f5;
-    margin: 0;
+    background-color: white;
+    margin: 3vw;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6vw;
 }
 
 iframe {
-    width: 48vw;
-    height: 48vw;
+    width: 46vw;
+    height: 46vw;
     border: none;
 }
 
+.container {
+    display: flex;
+    align-items: flex-start;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    gap: 1vw;
+}
+
+.module {
+    background-color: #f5f5f5;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    padding-bottom: 20px;
+
+    width: auto;
+    height: auto;
+}
+
+span {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    align-self: stretch;
+    text-align: center;
+}
+
 @media only screen and (max-width: 768px) {
+    body {
+        gap: 100px;
+    }
     iframe {
-        width: 100vw;
-        height: 100vw;
+        width: 94vw;
+        height: 94vw;
     }
 }

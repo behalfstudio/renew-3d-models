@@ -253,11 +253,11 @@ const animate = () => {
 
     renderer.render(scene, camera);
 
-    console.log([
-        Math.round(toDegrees(object.rotation.x)),
-        Math.round(toDegrees(object.rotation.y)),
-        Math.round(toDegrees(object.rotation.z)),
-    ]);
+    // console.log([
+    //     Math.round(toDegrees(object.rotation.x)),
+    //     Math.round(toDegrees(object.rotation.y)),
+    //     Math.round(toDegrees(object.rotation.z)),
+    // ]);
 };
 
 export { init, addObjectToScene, animate };
