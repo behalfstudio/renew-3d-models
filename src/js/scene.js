@@ -5,6 +5,8 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 const SENSITIVITY = 0.2;
 const FRICTION = 0.12;
 
+const LIGHT_COLOR = 0xffffff;
+
 let camera, renderer, scene, object;
 let isDragging = false;
 let previousMousePosition = { x: 0, y: 0 };
@@ -36,17 +38,9 @@ const init = (isInteractive) => {
 
     // Scene setup
     scene = new THREE.Scene();
+    // scene.background = new THREE.Color(LIGHT_COLOR);
 
-    // Lighting setup
-    // const ambientLight = new THREE.AmbientLight(0xffffff, 1); // Soft white light
-    // scene.add(ambientLight);
-
-    // const directionalLight = new THREE.DirectionalLight(0xffffff, 5);
-    // directionalLight.position.set(-50, 20, 100).normalize();
-    // scene.add(directionalLight);
-
-    const LIGHT_COLOR = 0xb8c0d4;
-
+    // Hemi light
     const hemiLight = new THREE.HemisphereLight(LIGHT_COLOR, LIGHT_COLOR, 1);
     scene.add(hemiLight);
 
@@ -54,22 +48,8 @@ const init = (isInteractive) => {
     const ambientLight = new THREE.AmbientLight(LIGHT_COLOR, 1);
     scene.add(ambientLight);
 
-    // Directional light
-    // const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    // directionalLight.position.set(-50, 20, 100);
-    // scene.add(directionalLight);
-
-    // Spot light
-    const spotLight = new THREE.SpotLight(LIGHT_COLOR, 4);
-    spotLight.position.set(-1000, 0, 2000);
-    spotLight.angle = Math.PI / 4;
-    scene.add(spotLight);
-
-    // Spot light
-    // const backLight = new THREE.SpotLight(0xffffff, 4);
-    // backLight.position.set(100, 10, -200);
-    // backLight.angle = Math.PI / 4;
-    // scene.add(backLight);
+    addLight(LIGHT_COLOR, 1, -50, 100, 20);
+    addLight(LIGHT_COLOR, 1, 1000, 20, 0);
 
     // Object setup
     object = new THREE.Object3D();
@@ -90,6 +70,12 @@ const init = (isInteractive) => {
         document.addEventListener("touchend", onDocumentTouchEnd, false);
         document.addEventListener("touchmove", onDocumentTouchMove, false);
     }
+};
+
+const addLight = (color, intensity, x, y, z) => {
+    const directionalLight = new THREE.DirectionalLight(color, intensity);
+    directionalLight.position.set(x, y, z);
+    scene.add(directionalLight);
 };
 
 const loadModel = (path, scale, rotation) => {
