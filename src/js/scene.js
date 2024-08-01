@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 // Constants
-const SENSITIVITY = 0.2;
+const SENSITIVITY = 0.25;
 const FRICTION = 0.12;
 
 const LIGHT_COLOR = 0xffffff;
@@ -21,11 +21,12 @@ const init = (isInteractive) => {
 
     // Camera setup
     camera = new THREE.PerspectiveCamera(
-        35,
+        60,
         window.innerWidth / window.innerHeight,
         1,
         1000
     );
+
     // camera = new THREE.OrthographicCamera(
     //     window.innerWidth / -10,
     //     window.innerWidth / 10,
@@ -34,7 +35,8 @@ const init = (isInteractive) => {
     //     1,
     //     1000
     // );
-    camera.position.z = 150;
+
+    camera.position.z = 90;
 
     // Scene setup
     scene = new THREE.Scene();
@@ -96,7 +98,7 @@ const loadModel = (path, scale, rotation) => {
 
         model.traverse((child) => {
             if (child.isMesh) {
-                child.material.side = THREE.FrontSide; // Ensure only front faces are rendered
+                child.material.side = THREE.FrontSide;
                 child.material.depthTest = true;
                 child.material.depthWrite = true;
             }
