@@ -21,7 +21,7 @@ const init = (isInteractive) => {
 
     // Camera setup
     camera = new THREE.PerspectiveCamera(
-        60,
+        45,
         window.innerWidth / window.innerHeight,
         1,
         1000
@@ -36,7 +36,7 @@ const init = (isInteractive) => {
     //     1000
     // );
 
-    camera.position.z = 90;
+    camera.position.z = 120;
 
     // Scene setup
     scene = new THREE.Scene();
@@ -51,7 +51,7 @@ const init = (isInteractive) => {
     scene.add(ambientLight);
 
     addLight(LIGHT_COLOR, 1, -50, 100, 20);
-    addLight(LIGHT_COLOR, 1, 1000, 20, 0);
+    // addLight(LIGHT_COLOR, 1, 1000, 20, 0);
 
     // Object setup
     object = new THREE.Object3D();
