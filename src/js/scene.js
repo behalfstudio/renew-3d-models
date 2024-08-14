@@ -27,20 +27,10 @@ const init = (isInteractive) => {
         1000
     );
 
-    // camera = new THREE.OrthographicCamera(
-    //     window.innerWidth / -10,
-    //     window.innerWidth / 10,
-    //     window.innerHeight / 10,
-    //     window.innerHeight / -10,
-    //     1,
-    //     1000
-    // );
-
     camera.position.z = 120;
 
     // Scene setup
     scene = new THREE.Scene();
-    // scene.background = new THREE.Color(LIGHT_COLOR);
 
     // Hemi light
     const hemiLight = new THREE.HemisphereLight(LIGHT_COLOR, LIGHT_COLOR, 1);
@@ -50,8 +40,9 @@ const init = (isInteractive) => {
     const ambientLight = new THREE.AmbientLight(LIGHT_COLOR, 1);
     scene.add(ambientLight);
 
-    addLight(LIGHT_COLOR, 1, -50, 100, 20);
-    // addLight(LIGHT_COLOR, 1, 1000, 20, 0);
+    addLight(LIGHT_COLOR, 1, 60, 0, 60);
+    addLight(LIGHT_COLOR, 0.8, -70, 0, 70);
+    addLight(LIGHT_COLOR, 0.4, 0, 90, -70);
 
     // Object setup
     object = new THREE.Object3D();
@@ -80,6 +71,8 @@ const addLight = (color, intensity, x, y, z) => {
     scene.add(directionalLight);
 };
 
+let rot;
+
 const loadModel = (path, scale, rotation) => {
     const gltfLoader = new GLTFLoader();
     gltfLoader.load(path, (gltf) => {
@@ -90,11 +83,18 @@ const loadModel = (path, scale, rotation) => {
         let model = gltf.scene;
         model.scale.set(scale, scale, scale);
         model.position.set(0, 0, 0);
+
+        rot = rotation;
+
         model.rotation.set(
             toRadians(rotation.x),
             toRadians(rotation.y),
             toRadians(rotation.z)
         );
+
+        // model.rotateY(toRadians(rotation.y));
+        // model.rotateZ(toRadians(rotation.z));
+        // model.rotateX(toRadians(rotation.x));
 
         model.traverse((child) => {
             if (child.isMesh) {
@@ -241,11 +241,11 @@ const animate = () => {
 
     renderer.render(scene, camera);
 
-    // console.log([
-    //     Math.round(toDegrees(object.rotation.x)),
-    //     Math.round(toDegrees(object.rotation.y)),
-    //     Math.round(toDegrees(object.rotation.z)),
-    // ]);
+    console.log([
+        Math.round(toDegrees(object.rotation.x) % 360),
+        Math.round(toDegrees(object.rotation.y) % 360),
+        Math.round(toDegrees(object.rotation.z) % 360),
+    ]);
 };
 
 export { init, addObjectToScene, animate };
